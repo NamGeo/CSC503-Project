@@ -1,0 +1,482 @@
+var fs = require("fs")
+var vm = require('vm')
+
+//import logic solver module
+var Logic = require('logic-solver');
+//create LogicSolver object 
+var solver = new Logic.Solver();
+
+//Rules so that the following options are mutualy exclusive
+solver.require(Logic.exactlyOne("Fresh","Saline"));
+solver.require(Logic.atMostOne("Lukewarm","Cold"));
+solver.require(Logic.atMostOne("Light", "Dark"));
+
+///////////START RULES
+//StickBug
+solver.require(Logic.implies("StickBug", "Fresh"));
+solver.require(Logic.implies("StickBug", "Lukewarm"));
+solver.require(Logic.implies("StickBug", "Light"));
+
+//Peppered-Cory
+solver.require(Logic.implies("Peppered-Cory", "Fresh"));
+solver.require(Logic.implies("Peppered-Cory", "Cold"));
+solver.require(Logic.implies("Peppered-Cory", "Light"));
+solver.require(Logic.implies("Peppered-Cory", "-Western-Mosquitofish"));
+
+//Hillstream-Loach
+solver.require(Logic.implies("Hillstream-Loach", "Fresh"));
+solver.require(Logic.implies("Hillstream-Loach", "Cold"));
+solver.require(Logic.implies("Hillstream-Loach", "Light"));
+solver.require(Logic.implies("Hillstream-Loach", "-Western-Mosquitofish"));
+
+//Paradise-Gourami
+solver.require(Logic.implies("Paradise-Gourami", "Fresh"));
+solver.require(Logic.implies("Paradise-Gourami", "Cold"));
+solver.require(Logic.implies("Paradise-Gourami", "Light"));
+solver.require(Logic.implies("Hillstream-Loach", "-Western-Mosquitofish"));
+
+//Zebra-Danios
+solver.require(Logic.implies("Zebra-Danios", "Fresh"));
+solver.require(Logic.implies("Zebra-Danios", "Cold"));
+solver.require(Logic.implies("Zebra-Danios", "Light"));
+
+//ParadiseFish
+solver.require(Logic.implies("ParadiseFish", "Fresh"));
+solver.require(Logic.implies("ParadiseFish", "Cold"));
+solver.require(Logic.implies("ParadiseFish", "Light"));
+
+//Cherry-Shrimp
+solver.require(Logic.implies("Cherry-Shrimp", "Fresh"));
+solver.require(Logic.implies("Cherry-Shrimp", "Cold"));
+solver.require(Logic.implies("Cherry-Shrimp", "Light"));
+
+//Rhinogobius-duospilus
+solver.require(Logic.implies("Rhinogobius-duospilus", "Fresh"));
+solver.require(Logic.implies("Rhinogobius-duospilus", "Cold"));
+solver.require(Logic.implies("Rhinogobius-duospilus", "Light"));
+
+//Western-Mosquitofish
+solver.require(Logic.implies("Western-Mosquitofish", "Fresh"));
+solver.require(Logic.implies("Western-Mosquitofish", "Cold"));
+solver.require(Logic.implies("Western-Mosquitofish", "Light"));
+
+//RosyBarb
+solver.require(Logic.implies("RosyBarb", "Fresh"));
+solver.require(Logic.implies("RosyBarb", "Cold"));
+solver.require(Logic.implies("RosyBarb", "Light"));
+
+
+//Gulper
+solver.require(Logic.implies("Gulper", "Saline"));
+solver.require(Logic.implies("Gulper", "Cold"));
+solver.require(Logic.implies("Gulper", "Dark"));
+
+//AnglerFish
+solver.require(Logic.implies("AnglerFish", "Saline"));
+solver.require(Logic.implies("AnglerFish", "Dark"));
+solver.require(Logic.implies("AnglerFish", "Lukewarm"));
+
+//FlashlightFish
+solver.require(Logic.implies("FlashlightFish", "Saline"));
+solver.require(Logic.implies("FlashlightFish", "Dark"));
+solver.require(Logic.implies("FlashlightFish", "Lukewarm"));
+
+//Watchman-goby
+solver.require(Logic.implies("Watchman-goby", "Saline"));
+solver.require(Logic.implies("Watchman-goby", "Cold"));
+solver.require(Logic.implies("Watchman-goby", "Light"));
+
+//Dotty-back
+solver.require(Logic.implies("Dotty-back", "Saline"));
+solver.require(Logic.implies("Dotty-back", "Cold"));
+solver.require(Logic.implies("Dotty-back", "Light"));
+
+//ChalkBass
+solver.require(Logic.implies("ChalkBass", "Saline"));
+solver.require(Logic.implies("ChalkBass", "Cold"));
+solver.require(Logic.implies("ChalkBass", "Light"));
+
+//Tangs
+solver.require(Logic.implies("Tangs", "Saline"));
+solver.require(Logic.implies("Tangs", "Cold"));
+solver.require(Logic.implies("Tangs", "Light"));
+
+//Shrimp
+solver.require(Logic.implies("Shrimp", "Saline"));
+solver.require(Logic.implies("Shrimp", "Cold"));
+solver.require(Logic.implies("Shrimp", "Dark"));
+
+//Catfish
+solver.require(Logic.implies("Catfish", "Fresh"));
+solver.require(Logic.implies("Catfish", "Lukewarm"));
+solver.require(Logic.implies("Catfish", "Light"));
+
+//Blackdragon
+solver.require(Logic.implies("Blackdragon", "Saline"));
+solver.require(Logic.implies("Blackdragon", "Cold"));
+solver.require(Logic.implies("Blackdragon", "Dark"));
+
+//Gar
+solver.require(Logic.implies("Gar", "Fresh"));
+solver.require(Logic.implies("Gar", "Lukewarm"));
+solver.require(Logic.implies("Gar", "Light"));
+
+//Freshwater-Angelfish
+solver.require(Logic.implies("Freshwater-Angelfish", "Fresh"));
+solver.require(Logic.implies("Freshwater-Angelfish", "Lukewarm"));
+solver.require(Logic.implies("Freshwater-Angelfish", "Dark"));
+solver.require(Logic.implies("Freshwater-Angelfish", "-Oscars"));
+
+//Mollies
+solver.require(Logic.implies("Mollies", "Fresh"));
+solver.require(Logic.implies("Mollies", "Lukewarm"));
+solver.require(Logic.implies("Mollies", "Dark"));
+
+//Platies
+solver.require(Logic.implies("Platies", "Fresh"));
+solver.require(Logic.implies("Platies", "Lukewarm"));
+solver.require(Logic.implies("Platies", "Dark"));
+solver.require(Logic.implies("Platies", "-Oscars"));
+
+//Oscars
+solver.require(Logic.implies("Oscars", "Fresh"));
+solver.require(Logic.implies("Oscars", "Lukewarm"));
+solver.require(Logic.implies("Oscars", "Dark"));
+
+//Seadragon
+solver.require(Logic.implies("Seadragon", "Saline"));
+solver.require(Logic.implies("Seadragon", "Cold"));
+solver.require(Logic.implies("Seadragon", "Dark"));
+
+//Nassau
+solver.require(Logic.implies("Nassau", "Saline"));
+solver.require(Logic.implies("Nassau", "Cold"));
+solver.require(Logic.implies("Nassau", "Dark"));
+
+//Dolphin
+solver.require(Logic.implies("Dolphin", "Saline"));
+solver.require(Logic.implies("Dolphin", "Lukewarm"));
+solver.require(Logic.implies("Dolphin", "Light"));
+
+//CoryCats
+solver.require(Logic.implies("CoryCats", "Fresh"));
+solver.require(Logic.implies("CoryCats", "Cold"));
+solver.require(Logic.implies("CoryCats", "Dark"));
+
+//Rasboras
+solver.require(Logic.implies("Rasboras", "Fresh"));
+solver.require(Logic.implies("Rasboras", "Lukewarm"));
+solver.require(Logic.implies("Rasboras", "Dark"));
+
+//Plecos
+solver.require(Logic.implies("Plecos", "Fresh"));
+solver.require(Logic.implies("Plecos", "Lukewarm"));
+solver.require(Logic.implies("Plecos", "Light"));
+
+//Cod
+solver.require(Logic.implies("Cod", "Saline"));
+solver.require(Logic.implies("Cod", "Lukewarm"));
+solver.require(Logic.implies("Cod", "Light"));
+
+//Shark
+solver.require(Logic.implies("Shark", "Saline"));
+solver.require(Logic.implies("Shark", "Cold"));
+solver.require(Logic.implies("Shark", "Dark"));
+
+//Planktons
+solver.require(Logic.implies("Planktons", "Fresh"));
+solver.require(Logic.implies("Planktons", "Lukewarm"));
+solver.require(Logic.implies("Planktons", "Light"));
+
+//Tetra
+solver.require(Logic.implies("Tetra", "Fresh"));
+solver.require(Logic.implies("Tetra", "Lukewarm"));
+solver.require(Logic.implies("Tetra", "Light"));
+
+//Trout
+solver.require(Logic.implies("Trout", "Fresh"));
+solver.require(Logic.implies("Trout", "Lukewarm"));
+solver.require(Logic.implies("Trout", "Light"));
+
+//Eels
+solver.require(Logic.implies("Eels", "Fresh"));
+solver.require(Logic.implies("Eels", "Lukewarm"));
+solver.require(Logic.implies("Eels", "Light"));
+
+//Turtle
+solver.require(Logic.implies("Turtle", "Fresh"));
+solver.require(Logic.implies("Turtle", "Lukewarm"));
+solver.require(Logic.implies("Turtle", "Light"));
+
+//CrayFish
+solver.require(Logic.implies("CrayFish", "Fresh"));
+solver.require(Logic.implies("CrayFish", "Lukewarm"));
+solver.require(Logic.implies("CrayFish", "Light"));
+
+//SwordFish
+solver.require(Logic.implies("SwordFish", "Fresh"));
+solver.require(Logic.implies("SwordFish", "Lukewarm"));
+solver.require(Logic.implies("SwordFish", "Light"));
+
+//Loaches
+solver.require(Logic.implies("Loaches", "Fresh"));
+solver.require(Logic.implies("Loaches", "Lukewarm"));
+solver.require(Logic.implies("Loaches", "Light"));
+
+//RainbowFish
+solver.require(Logic.implies("RainbowFish", "Fresh"));
+solver.require(Logic.implies("RainbowFish", "Lukewarm"));
+solver.require(Logic.implies("RainbowFish", "Light"));
+
+
+//Tuna
+solver.require(Logic.implies("Tuna", "Saline"));
+solver.require(Logic.implies("Tuna", "Lukewarm"));
+solver.require(Logic.implies("Tuna", "Light"));
+solver.require(Logic.implies("Tuna", "-Shark"));
+
+
+
+//marlin
+solver.require(Logic.implies("Marlin", "Saline"));
+solver.require(Logic.implies("Marlin", "Lukewarm"));
+solver.require(Logic.implies("Marlin", "Light"));
+solver.require(Logic.implies("Marlin", "-Shark"));
+
+//Barbs
+solver.require(Logic.implies("Barbs", "Fresh"));
+solver.require(Logic.implies("Barbs", "Cold"));
+solver.require(Logic.implies("Barbs", "Dark"));
+solver.require(Logic.implies("Barbs", "-Eels"));
+solver.require(Logic.implies("Barbs", "-Bettas"));
+
+//Bettas
+solver.require(Logic.implies("Bettas", "Fresh"));
+solver.require(Logic.implies("Bettas", "Lukewarm"));
+solver.require(Logic.implies("Bettas", "Light"));
+solver.require(Logic.implies("Bettas", "-Freshwater-Angelfish"));
+
+//Guppies
+solver.require(Logic.implies("Guppies", "Fresh"));
+solver.require(Logic.implies("Guppies", "Lukewarm"));
+solver.require(Logic.implies("Guppies", "Light"));
+solver.require(Logic.implies("Guppies", "-Freshwater-Angelfish"));
+
+//Crustaceans
+solver.require(Logic.implies("Rasboras", "Fresh"));
+solver.require(Logic.implies("Rasboras", "Cold"));
+solver.require(Logic.implies("Rasboras", "Light"));
+solver.require(Logic.implies("Rasboras", "-Eels"));
+
+//Octopus
+solver.require(Logic.implies("Octopus", "Saline"));
+solver.require(Logic.implies("Octopus", "Cold"));
+solver.require(Logic.implies("Octopus", "Dark"));
+solver.require(Logic.implies("Octopus", "-Shark"));
+
+//Squid
+solver.require(Logic.implies("Squid", "Saline"));
+solver.require(Logic.implies("Squid", "Cold"));
+solver.require(Logic.implies("Squid", "Dark"));
+solver.require(Logic.implies("Squid", "-Shark"));
+
+//Snails
+solver.require(Logic.implies("Snails", "Fresh"));
+solver.require(Logic.implies("Snails", "Lukewarm"));
+solver.require(Logic.implies("Snails", "Light"));
+solver.require(Logic.implies("Planktons", "Snails"));
+solver.require(Logic.implies("StickBug", "Snails"));
+
+
+
+///////////END RULES
+
+var solutions = [];
+var curSol;
+var longestList = [];
+var longestLength = 0;
+var readline = require('readline-sync');
+var sample_conditions = ["Fresh","Saline","Lukewarm","Cold","Light", "Dark"]
+var tank_limit = 100
+
+
+choice = parseInt(readline.question("\n***BUILD YOUR AQUARIUM!***\n\nOptions:\n1.Get fishes and required conditions for the largest possible single aquarium.\n\n2.Input your prefered aquarium conditions and get largest list possible for it.\n\n3.Get largest list for every possible aquarium conditions.\n\nSelect one of the above options :\n"));
+if(choice==1)
+{
+	first_case();
+}
+else if(choice==2)
+{
+	second_case();
+}
+else if(choice==3)
+{
+	third_case();
+}
+else{
+console.log("Oops! Invalid Choice!")
+}	
+
+//for first case
+function first_case()
+{
+
+tank_limit = parseInt(readline.question("Enter Tank limit :\n"));
+
+//loop to find the longest list given no conditions
+	while ((curSol = solver.solve())) {
+  currSolnList = curSol.getTrueVars()
+  
+  if(currSolnList.length > longestLength && (currSolnList.length <= (tank_limit+3))) {
+	longestList = currSolnList; 
+	longestLength = currSolnList.length
+  } 
+  solutions.push(currSolnList);
+  solver.forbid(curSol.getFormula()); // forbid the current solution
+}
+print_list();
+}
+
+//for second case
+function second_case()
+{
+	var input = readline.question("Enter Tank Conditions you prefer :\n");
+req_conditions=input.split(" ")
+tank_limit = parseInt(readline.question("Enter Tank limit :\n"));
+
+//different function calls depending on the number of constraints entered
+if(req_conditions.length==1)
+{
+	if(sample_conditions.includes(req_conditions[0])){
+		single_input();
+	} else{
+		console.log("\n Invalid condition! \n")
+	}
+}
+else if(req_conditions.length==2)
+{
+	
+	if(sample_conditions.includes(req_conditions[0]) && sample_conditions.includes(req_conditions[1]) ){
+		double_input();
+	} else{
+		console.log("\n Invalid condition! \n")
+	}
+}
+else if(req_conditions.length==3)
+{
+	if(sample_conditions.includes(req_conditions[0]) && sample_conditions.includes(req_conditions[1]) && sample_conditions.includes(req_conditions[2]) ){
+		triple();
+	} else{
+		console.log("\n Invalid condition! \n")
+	}
+}
+}
+
+//for third case
+function third_case()
+{
+var water_condition = ["Fresh", "Saline"];
+var water_temperature_condition = ["Lukewarm", "Cold"];
+var lighting_conditions = ["Light", "Dark"];
+
+console.log("\n\nHang in there! We got a lot of fishes, and this may take an average of 20 minutes.\n\n")
+
+//loops to find the longest list for all conditions
+for(var i=0; i < water_condition.length; i++){
+
+	for(var j=0; j < water_temperature_condition.length; j++){
+		
+		for(var k=0; k < lighting_conditions.length; k++){
+			longestList = []
+			longestLength = 0
+			solutions=[]
+
+			while ((curSol = solver.solveAssuming(Logic.and(water_condition[i],water_temperature_condition[j],lighting_conditions[k])))) {
+			  currSolnList = curSol.getTrueVars()
+			  if(currSolnList.length > longestLength) {
+					longestList = currSolnList;
+					longestLength = currSolnList.length
+			  }
+			  solutions.push(currSolnList);
+			  solver.forbid(curSol.getFormula()); // so that this solution is not repeated by solver
+			}
+			print_list();
+
+		}
+	}
+
+}
+}
+
+//function when given only one condition
+function single_input()
+{
+	while ((curSol = solver.solveAssuming(req_conditions[0]))) {
+	  currSolnList = curSol.getTrueVars()
+	  //console.log(currSolnList)
+	  if( (currSolnList.length > longestLength) && (currSolnList.length <= (tank_limit+3)) ) {
+		longestList = currSolnList;
+		longestLength = currSolnList.length
+	  }
+	  solutions.push(currSolnList);
+	  solver.forbid(curSol.getFormula()); // so that this solution is not repeated by solver
+	}
+print_list();
+}
+
+//function when given only two conditions
+function double_input()
+{
+while ((curSol = solver.solveAssuming(Logic.and(req_conditions[0],req_conditions[1])))) {
+  currSolnList = curSol.getTrueVars()
+  //console.log(currSolnList)
+  if(currSolnList.length > longestLength && (currSolnList.length <= (tank_limit+3)) ) {
+longestList = currSolnList;
+longestLength = currSolnList.length
+  }
+  solutions.push(currSolnList);
+  solver.forbid(curSol.getFormula()); // so that this solution is not repeated by solver
+}
+print_list();
+}
+
+//function when given three conditions
+function triple()
+{
+while ((curSol = solver.solveAssuming(Logic.and(req_conditions[0],req_conditions[1],req_conditions[2])))) {
+  currSolnList = curSol.getTrueVars()
+  //console.log(currSolnList)
+  if(currSolnList.length > longestLength && (currSolnList.length <= (tank_limit+3)) ) {
+longestList = currSolnList;
+longestLength = currSolnList.length
+  }
+  solutions.push(currSolnList);
+  solver.forbid(curSol.getFormula()); // so that this solution is not repeated by solver
+}
+print_list();
+}
+
+//common print function used by all
+function print_list()
+{
+var Conditions = ["Fresh" , "Saline", "Lukewarm" , "Cold", "Light" , "Dark"];
+var decidedConditions = [];
+var AquaticSpecies = [];
+
+for(var i=0; i < longestList.length; i++){
+
+if(Conditions.includes(longestList[i])){
+decidedConditions.push(longestList[i]);
+} else{
+AquaticSpecies.push(longestList[i])
+}
+}
+console.log("\n Longest list Conditions: ")
+console.log(decidedConditions)
+console.log(" => Longest list Species: ")
+console.log(AquaticSpecies)
+console.log("Number of species: ")
+console.log(AquaticSpecies.length)
+
+}
+
